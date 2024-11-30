@@ -54,7 +54,8 @@ const clear = () => {
   hasOperator = false;
   canAddDecimal = true;
   hasDecimal = false;
-}
+  activeOperator.classList.remove("active");
+};
 
 numberBtns.forEach((number) => {
   number.addEventListener("click", () => {
@@ -162,19 +163,60 @@ equalsBtn.addEventListener("click", () => {
 deleteBtn.addEventListener("click", () => {
   if (onFirstNumber && firstNum) {
     let firstNumArray = firstNum.split('');
-    firstNumArray.pop();
+    let deleted = firstNumArray.pop();
     firstNum = firstNumArray.join('');
+    if (deleted === ".") {
+      canAddDecimal = true;
+      hasDecimal = false;
+    }
     if (!firstNum) {
       firstNum = "0";
+      canAddDecimal = true;
+      hasDecimal = false;
     }
     display.textContent = firstNum;
   } else if (!onFirstNumber && secondNum) {
     let secondNumArray = secondNum.split('');
-    secondNumArray.pop();
+    let deleted = secondNumArray.pop();
     secondNum = secondNumArray.join('');
+    if (deleted === ".") {
+      canAddDecimal = true;
+      hasDecimal = false;
+    }
     if (!secondNum) {
       secondNum = "0";
+      canAddDecimal = true;
+      hasDecimal = false;
     }
     display.textContent = secondNum;
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  console.log(event);
+  let button;
+
+  
+
+  if (event.key >= "0" && event.key <= "9") {
+    button = document.querySelector(`.num${event.key}`);
+  } else if (event.key === "-") {
+    button = document.querySelector(".minus");
+  } else if (event.key === "+") {
+    button = document.querySelector(".plus");
+  } else if (event.key === "*") {
+    button = document.querySelector(".multiply");
+  } else if (event.key === "/") {
+    button = document.querySelector(".divide");
+  } else if (event.key === ".") {
+    button = document.querySelector(".decimal");
+  } else if (event.key === "Enter") {
+    button = document.querySelector(".equals");
+  } else if (event.key === "Backspace") {
+    button = document.querySelector(".delete");
+  }
+
+  if (button) {
+    button.click();
   }
 });
