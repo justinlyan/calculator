@@ -5,6 +5,7 @@ let secondNum = "";
 let onFirstNumber = true;
 let canAddDecimal = true;
 let hasDecimal = false;
+let activeOperator;
 
 const display = document.querySelector(".display");
 const numberBtns = document.querySelectorAll(".number");
@@ -103,11 +104,20 @@ decimalBtn.addEventListener("click", () => {
 });
 
 operatorBtns.forEach((operator) => {
-  operator.addEventListener("click", () => {
+  operator.addEventListener("click", (current) => {
     if (firstNum && !hasOperator) {
       sign = operator.textContent;
       hasOperator = true;
       onFirstNumber = false;
+      activeOperator = current.target;
+      activeOperator.classList.add("active");
+    }
+
+    if (firstNum && hasOperator && !secondNum) {
+      sign = operator.textContent;
+      activeOperator.classList.remove("active");
+      activeOperator = current.target;
+      activeOperator.classList.add("active");
     }
 
     if (firstNum && secondNum && hasOperator) {
@@ -116,6 +126,9 @@ operatorBtns.forEach((operator) => {
       firstNum = result;
       secondNum = "";
       sign = operator.textContent;
+      activeOperator.classList.remove("active");
+      activeOperator = current.target;
+      activeOperator.classList.add("active");
     }
 
     canAddDecimal = true;
@@ -142,6 +155,7 @@ equalsBtn.addEventListener("click", () => {
     onFirstNumber = false;
     canAddDecimal = true;
     display.textContent = firstNum;
+    activeOperator.classList.remove("active");
   }
 });
 
