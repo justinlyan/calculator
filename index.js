@@ -68,12 +68,14 @@ numberBtns.forEach((number) => {
       if (firstNum === "0") {
         firstNum = '';
       }
+      if (firstNum.length >= 15) return;
       firstNum += number.textContent;
       display.textContent = firstNum;
     } else {
       if (secondNum === "0") {
         secondNum = "";
       }
+      if (secondNum.length >= 15) return;
       secondNum += number.textContent;
       display.textContent = secondNum;
     }
@@ -193,11 +195,7 @@ deleteBtn.addEventListener("click", () => {
 });
 
 document.addEventListener("keydown", (event) => {
-  console.log(event);
   let button;
-
-  
-
   if (event.key >= "0" && event.key <= "9") {
     button = document.querySelector(`.num${event.key}`);
   } else if (event.key === "-") {
